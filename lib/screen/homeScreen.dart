@@ -1,7 +1,7 @@
 import 'package:cep/block/cep_block.dart';
 import 'package:cep/model/cepUsuario.dart';
+import 'package:cep/widGet/textCep.dart';
 import 'package:flutter/material.dart';
-import 'package:cep/services/cep_service.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -42,8 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     size: 150.0, color: Colors.blue)),
             Container(
               width: 300,
-              child: buildTextFiel("Cep", _cepController),
+              child: TextCep("Cep", _cepController, cepBlock ),
             ),
+            /*
             Container(
               child: ElevatedButton(
                   onPressed: () async {
@@ -60,21 +61,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       : CircularProgressIndicator(
                           valueColor:
                               AlwaysStoppedAnimation<Color>(Colors.white),
-                        )),
-            ),
+                        )
+                        ),
+            ),*/
             StreamBuilder<CepUsuario>(
               stream: cepBlock.streams,
               builder: (context, snapshot) {
+                print(snapshot.hasError);
+                if (snapshot.hasError) {
+                  return Text("Erro ao carregar os dados");
+                }
                 if (!snapshot.hasData) {
                   return Text("Informe um cep");
                 }
-
-                if (snapshot.hasError) {
-                  return Text(snapshot.error);
-                }
-
-                
-
                 return SingleChildScrollView(
                   padding: EdgeInsets.all(10.0),
                   child: Container(
@@ -99,24 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  buildTextFiel(String Nome, TextEditingController controlar) {
-    return TextField(
-      controller: controlar,
-      onChanged: (val) async {
-        if(val.length == 8 )
-          await cepBlock.getCep(val);
-          
-      },
-      decoration: InputDecoration(
-        labelText: Nome,
-        labelStyle: TextStyle(color: Colors.blue),
-        border: OutlineInputBorder(),
-      ),
-      style: TextStyle(color: Colors.blue, fontSize: 25.0),
-      keyboardType: TextInputType.number,
     );
   }
 }

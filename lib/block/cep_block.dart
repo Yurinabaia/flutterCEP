@@ -7,10 +7,11 @@ class CepBlock extends GenericBlock<CepUsuario> {
     try {
       CepUsuario cepResponse = await CepServices.getCep(cep);
       add(cepResponse);
-    } catch (erro) {
-      throw Exception("Erro no block");
     }
+    catch (e) {
+      return e;
+    }
+    
   }
-
   get streams => stream;
 }
