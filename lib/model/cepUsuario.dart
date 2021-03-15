@@ -8,7 +8,7 @@ class CepUsuario {
   final String localidade;
   final String uf;
 
-  CepUsuario({@required this.cep, @required this.logradouro,@required this.bairro,@required this.localidade,  this.uf});
+  CepUsuario({ this.cep,  this.logradouro, this.bairro, this.localidade,  this.uf});
 
   factory CepUsuario.fromJson(Map<String, dynamic> json) {
     return CepUsuario(

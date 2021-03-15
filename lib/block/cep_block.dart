@@ -4,8 +4,13 @@ import 'package:cep/services/cep_service.dart';
 
 class CepBlock extends GenericBlock<CepUsuario> {
   getCep(cep) async {
-    CepUsuario cepResponse = await CepServices.getCep(cep);
-    add(cepResponse);
+    try {
+      CepUsuario cepResponse = await CepServices.getCep(cep);
+      add(cepResponse);
+    } catch (erro) {
+      throw Exception("Erro no block");
+    }
   }
+
   get streams => stream;
 }

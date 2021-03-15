@@ -7,11 +7,11 @@ class CepServices {
     Uri url = Uri.https("viacep.com.br", "/ws/$cep/json/");
 
     final response = await http.get(url);
-
     if (response.statusCode == 200) {
+      var teste = jsonDecode(response.body);
+      if (teste['erro'])
+          throw Exception("Dados não encontrados");
       return CepUsuario.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Falhar ao carregar API');
     }
   }
 }
